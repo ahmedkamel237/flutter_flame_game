@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="3">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="5">
  <tileset firstgid="1" source="Pixel Adventure.tsx"/>
- <layer id="1" name="Tile Layer 1" width="40" height="23">
+ <layer id="1" name="Tile Layer 1" width="40" height="23" locked="1" offsetx="1.29651" offsety="1.29651">
   <data encoding="csv">
 24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,112,
 92,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,93,
 113,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,111,
-113,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,165,118,0,0,0,0,0,0,0,0,0,0,0,0,111,
+113,0,66,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,165,118,0,0,0,0,0,0,0,0,0,0,0,0,111,
 113,0,0,0,0,0,0,0,0,118,0,0,0,0,0,118,0,118,0,118,0,0,0,0,165,118,165,118,0,0,118,0,0,0,0,0,0,0,0,111,
 113,0,0,0,0,0,0,0,0,118,0,0,0,0,0,118,0,118,0,118,0,0,0,0,0,0,0,0,0,0,118,0,0,0,0,0,0,0,0,111,
 113,0,0,0,0,0,118,0,0,118,0,0,118,0,0,118,0,118,0,118,0,0,0,137,118,165,118,165,118,0,118,0,0,0,0,0,118,0,0,111,
@@ -29,6 +29,6 @@
 </data>
  </layer>
  <objectgroup id="15" name="Spawnpoints">
-  <object id="2" name="Player" type="Player" x="106.415" y="227.38" width="38.6225" height="51.4966"/>
+  <object id="3" name="Player" type="Player" x="14.2564" y="255.846" width="38.6225" height="51.4966"/>
  </objectgroup>
 </map>

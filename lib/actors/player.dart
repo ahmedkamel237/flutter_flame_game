@@ -4,10 +4,10 @@ import 'package:game_with_flame_flutter/pixel_adventure.dart';
 
 enum PlayerState { idle, running }
 
-enum PlayerDirection { left, right, none }
+enum PlayerDirection { left, right, up, down, none }
 
 class Player extends SpriteAnimationGroupComponent
-    with HasGameRef<PixelAdventure>, KeyboardHandler {
+    with HasGameRef<PixelAdventure>, KeyboardHandler, HasCollisionDetection {
   late final SpriteAnimation idleAnimation;
   late final SpriteAnimation runningAnimation;
   final double stepTime = 0.05;
@@ -16,7 +16,7 @@ class Player extends SpriteAnimationGroupComponent
   Vector2 velocity = Vector2.zero();
   bool isFacingRight = true;
 
-  Player({position, required this.character}) : super(position: position);
+  Player({position, this.character = "Ninja Frog"}) : super(position: position);
 
   String character;
 
@@ -40,7 +40,7 @@ class Player extends SpriteAnimationGroupComponent
       playerDirection = PlayerDirection.left;
     } else if (isRightKeyPressed) {
       playerDirection = PlayerDirection.right;
-    }else{
+    } else {
       playerDirection = PlayerDirection.none;
     }
     return super.onKeyEvent(event, keysPressed);
