@@ -10,13 +10,22 @@ import 'package:game_with_flame_flutter/levels/level.dart';
 
 class PixelAdventure extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks {
+  final int level;
+
   @override
   Color backgroundColor() => const Color(0xFF211F30);
 
   late JoystickComponent joystick;
 
   // late final CameraComponent cam;
-  final Player _player = Player(); // Final for better immutability
+  final Player _player = Player();
+
+  PixelAdventure({
+    super.children,
+    super.world,
+    super.camera,
+    required this.level,
+  }); // Final for better immutability
   @override
   FutureOr<void> onLoad() async {
     await images.loadAllImages();
@@ -26,7 +35,11 @@ class PixelAdventure extends FlameGame
       width: 640,
       height: 360,
     );
-    world = Level(levelName: 'level_01', player: _player);
+
+    world = Level(
+      levelName: level < 10 ? 'level_0$level' : 'level_$level',
+      player: _player,
+    );
 
     camera.viewfinder.anchor = Anchor.topLeft;
 
