@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
+import 'package:game_with_flame_flutter/core/constants.dart';
 import 'package:game_with_flame_flutter/pixel_adventure.dart';
 
 enum PlayerState { idle, running }
@@ -10,15 +11,21 @@ class Player extends SpriteAnimationGroupComponent
     with HasGameRef<PixelAdventure>, KeyboardHandler, HasCollisionDetection {
   late final SpriteAnimation idleAnimation;
   late final SpriteAnimation runningAnimation;
+  final JoystickComponent joystick;
+
   final double stepTime = 0.05;
   PlayerDirection playerDirection = PlayerDirection.none;
   double moveSpeed = 100;
   Vector2 velocity = Vector2.zero();
   bool isFacingRight = true;
 
-  Player({position, this.character = "Ninja Frog"}) : super(position: position);
+  Player({
+    required this.joystick,
+    super.position,
+    this.character = AppConstants.ninjaFrog,
+  });
 
-  String character;
+  final String character;
 
   @override
   void update(double dt) {
@@ -103,5 +110,6 @@ class Player extends SpriteAnimationGroupComponent
     }
     velocity = Vector2(dx, 0);
     position += velocity * dt;
+    position.add(joystick.relativeDelta * moveSpeed * dt);
   }
 }

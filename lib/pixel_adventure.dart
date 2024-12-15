@@ -6,17 +6,29 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:game_with_flame_flutter/actors/player.dart';
+import 'package:game_with_flame_flutter/core/constants.dart';
 import 'package:game_with_flame_flutter/levels/level.dart';
 
 class PixelAdventure extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks {
+  final int level;
+  final String characterName;
+
   @override
   Color backgroundColor() => const Color(0xFF211F30);
 
-  late JoystickComponent joystick;
+  late JoystickComponent _joystick;
 
-  // late final CameraComponent cam;
-  final Player _player = Player(); // Final for better immutability
+  late final Player _player;
+
+  PixelAdventure({
+    super.children,
+    super.world,
+    super.camera,
+    required this.level,
+    this.characterName = AppConstants.ninjaFrog,
+  });
+
   @override
   FutureOr<void> onLoad() async {
     await images.loadAllImages();
@@ -26,13 +38,25 @@ class PixelAdventure extends FlameGame
       width: 640,
       height: 360,
     );
-    world = Level(levelName: 'level_01', player: _player);
-
-    camera.viewfinder.anchor = Anchor.topLeft;
 
     if (Platform.isAndroid || Platform.isIOS || Platform.isMacOS) {
       addJoystick();
     }
+
+    _player = Player(joystick: _joystick);
+
+    // The World that the camera is rendering.
+    // Inside of this world is where most of your components should be added.
+    world = Level(
+      levelName: level < 10 ? 'level_0$level' : 'level_$level',
+      player: _player,
+      characterName: characterName,
+      joystick: _joystick,
+    );
+
+    camera.viewfinder.anchor = Anchor.topLeft;
+
+
 
     return super.onLoad();
   }
@@ -48,7 +72,7 @@ class PixelAdventure extends FlameGame
   }
 
   void addJoystick() {
-    joystick = JoystickComponent(
+    _joystick = JoystickComponent(
       knob: SpriteComponent(
         sprite: Sprite(images.fromCache("HUD/Knob.png")),
       ),
@@ -59,22 +83,20 @@ class PixelAdventure extends FlameGame
     );
 
     // Add the joystick to the HUD layer, not the camera/world
-    camera.viewport.add(joystick);
+    camera.viewport.add(_joystick);
   }
 
   void _updateJoystick(double dt) {
-    switch (joystick.direction) {
+    switch (_joystick.direction) {
       case JoystickDirection.left:
       case JoystickDirection.downLeft:
       case JoystickDirection.upLeft:
         _player.playerDirection = PlayerDirection.left;
-        print('_player.playerDirection $dt ${_player.playerDirection}');
         break;
       case JoystickDirection.right:
       case JoystickDirection.downRight:
       case JoystickDirection.upRight:
         _player.playerDirection = PlayerDirection.right;
-        print('_player.playerDirection ${_player.playerDirection}');
         break;
       default:
         _player.playerDirection = PlayerDirection.none;
