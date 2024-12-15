@@ -3,12 +3,21 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:game_with_flame_flutter/actors/player.dart';
+import 'package:game_with_flame_flutter/core/constants.dart';
 
 class Level extends World {
   late TiledComponent level;
   String levelName;
-  Player player;
-  Level({required this.player,required this.levelName});
+  final Player player;
+  final String characterName;
+  final JoystickComponent joystick;
+
+  Level({
+    required this.player,
+    required this.levelName,
+    required this.joystick,
+    this.characterName = AppConstants.ninjaFrog,
+  });
 
   @override
   FutureOr<void> onLoad() async {
@@ -20,13 +29,14 @@ class Level extends World {
       switch (spawnPoint.class_) {
         case "Player":
           final player = Player(
-            character: "Ninja Frog",
+            joystick: joystick,
+            character: characterName,
             position: Vector2(
               spawnPoint.x,
               spawnPoint.y,
             ),
           );
-          player.position =Vector2(
+          player.position = Vector2(
             spawnPoint.x,
             spawnPoint.y,
           );

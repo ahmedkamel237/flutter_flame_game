@@ -1,7 +1,7 @@
 import 'package:flame/flame.dart';
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:game_with_flame_flutter/pixel_adventure.dart';
+import 'package:game_with_flame_flutter/common/widgets/game_widget_list_tile.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,10 +15,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(
+        useMaterial3: true,
+        textTheme: GoogleFonts.pressStart2pTextTheme().apply(
+          bodyColor: const Color(0xff184e77),
+          displayColor: const Color(0xff184e77),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       title: "Flutter Advanced",
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
@@ -56,76 +63,16 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const LevelsPage()),
-                  );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      clipBehavior: Clip.antiAlias,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: Image.asset(
-                        "assets/mario.jpeg",
-                        fit: BoxFit.cover,
-                        width: 50,
-                        height: 50,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    const Text(
-                      "Mario",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+              Expanded(
+                child: ListView.separated(
+                  itemBuilder:(context, index) =>  const GameWidgetListTile(),
+                    separatorBuilder: (context, index) => const SizedBox(height: 24),
+                    itemCount: 2,
                 ),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class LevelsPage extends StatelessWidget {
-  static const String routeName = "/levels";
-
-  const LevelsPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Levels"),
-      ),
-      body: ListView.builder(
-        itemCount: 2,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text("Level ${index + 1}"),
-            onTap: () {
-              Flame.device.setLandscape();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => GameWidget(
-                    game: PixelAdventure(level: index + 1),
-                  ),
-                ),
-              );
-            },
-          );
-        },
       ),
     );
   }
