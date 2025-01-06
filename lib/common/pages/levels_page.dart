@@ -22,23 +22,26 @@ class LevelsPage extends StatelessWidget {
           return ListTile(
             title: Text("Level ${index + 1}"),
             onTap: () {
-              Flame.device.setLandscape();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => GameWidget(
-                    game: PixelAdventure(
-                      level: index + 1,
-                      // need to make a choice character page
-                      characterName: AppConstants.ninjaFrog,
+              if(index == 0) {
+                Flame.device.setLandscape();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => GameWidget(
+                      game: PixelAdventure(
+                        level: index + 1,
+                        // need to make a choice character page
+                        characterName: AppConstants.ninjaFrog,
+                      ),
                     ),
                   ),
+                );
+              }else {
+                Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const BreakoutGameApp(),
                 ),
               );
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //     builder: (context) => const BreakoutGameApp(),
-              //   ),
-              // );
+              }
             },
           );
         },
